@@ -158,7 +158,7 @@ function getEditFormTemplate() {
 
 export default class EditForm {
   getTemplate(){
-    getEditFormTemplate();
+    return getEditFormTemplate();
   }
 
   getElement() {

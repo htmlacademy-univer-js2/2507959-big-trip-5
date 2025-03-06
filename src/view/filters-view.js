@@ -28,7 +28,7 @@ function getFilteredTemplate() {
 
 export default class Filters {
   getTemplate(){
-    getFilteredTemplate();
+    return getFilteredTemplate();
   }
 
   getElement() {

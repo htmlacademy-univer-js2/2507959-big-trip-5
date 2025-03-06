@@ -164,7 +164,7 @@ function getCreateFormTemplate() {
 }
 export default class CreateForm {
   getTemplate(){
-    getCreateFormTemplate();
+    return getCreateFormTemplate();
   }
 
   getElement() {
