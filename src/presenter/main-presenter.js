@@ -5,7 +5,8 @@ import flatpickr from 'flatpickr';
 import PointView from '../view/point-view';
 // import PointsList from '../view/point-list-view.js';
 import 'flatpickr/dist/flatpickr.min.css';
-import {isEscapeKey} from '../utils.js';
+import {isEscapeKey} from '../utils/utils.js';
+
 export default class Presenter{
   #pointModel;
   #offerModel;
