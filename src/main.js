@@ -7,8 +7,6 @@ import PointModel from './model/point-model.js';
 import OfferModel from './model/offer-model.js';
 import DestinationModel from './model/destination-model.js';
 import { generateFilters } from './mock/filter.js';
-
-
 const siteHeaderFiltersElement = document.querySelector('.trip-controls__filters');
 const siteBodySortElement = document.querySelector('.trip-events');
 const filter = generateFilters(new PointModel().points);
