@@ -61,13 +61,12 @@ function createPointsTemplate(pointModel,offerModel,destinationModel){
 `;
 }
 
-export default class Point extends AbstractView{
+export default class PointView extends AbstractView{
   pointModel;
   #offerModel;
   #destinationModel;
   #rollupButton;
   #favoriteButton;
-
   constructor(pointModel,offerModel,destinationModel,onEditButtonClick,onFavoriteButtonClick){
     super();
     this.pointModel = pointModel;
@@ -76,8 +75,7 @@ export default class Point extends AbstractView{
     this.#rollupButton = this.element.querySelector('.event__rollup-btn');
     this.#favoriteButton = this.element.querySelector('.event__favorite-btn');
     this.#rollupButton.addEventListener('click',onEditButtonClick);
-    this.#favoriteButton.addEventListener('click',()=>
-      onFavoriteButtonClick({...this.pointModel,isFavorite:!this.pointModel.isFavorite}));
+    this.#favoriteButton.addEventListener('click', onFavoriteButtonClick);
   }
 
   get template(){
