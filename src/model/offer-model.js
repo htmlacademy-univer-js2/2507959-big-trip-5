@@ -1,8 +1,6 @@
 import { UpdateType } from '../const';
 import Observable from '../framework/observable';
 
-const FIRST_ELEMENT = 0;
-
 export default class OfferModel extends Observable {
   #offerList = [];
   #offersApi;
@@ -15,7 +13,7 @@ export default class OfferModel extends Observable {
 
   async init() {
     try {
-      this.#offerList = await this.#offersApi.offerList;
+      this.#offerList = await this.#offersApi.offerList();
     } catch (err) {
       this.#offerList = [];
     }
@@ -31,14 +29,20 @@ export default class OfferModel extends Observable {
     return this.#isLoaded;
   }
 
-  getOfferById(type, offerId) {
-    if (this.#offerList.length === 0) {
-      return;
+  getOfferById(type, id) {
+    const offersByType = this.#offerList.find((offer) => offer.type === type);
+    if (!offersByType) {
+      return undefined;
     }
-    return this.#offerList.filter((offer) => offer.type === type)[FIRST_ELEMENT].offers.find((item) => item.offerId === offerId);
+    return offersByType.offers.find((item) => item.id === id);
   }
 
   getOfferByType(type) {
-    return this.#offerList.filter((offer) => offer.type === type).map((offer) => offer.offers).flat();
+    if (!Array.isArray(this.#offerList)) {
+      return [];
+    }
+    return this.#offerList
+      .filter((offer) => offer.type === type)
+      .flatMap((offer) => offer.offers);
   }
 }

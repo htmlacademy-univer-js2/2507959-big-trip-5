@@ -12,10 +12,10 @@ function createPointsTemplate(pointModel,offerModel,destinationModel){
     type
   } = pointModel;
 
-  const pointOffers = [];
-  for(const offerId of offers){
-    pointOffers.push(offerModel.getOfferById(type,offerId));
-  }
+  const pointOffers = offers
+    .map((offerId) => offerModel.getOfferById(type, offerId))
+    .filter((offer) => offer !== undefined);
+
   const {name} = destinationModel.getDestinationById(destination);
   const date = humanizeDate(dateFrom);
   return `

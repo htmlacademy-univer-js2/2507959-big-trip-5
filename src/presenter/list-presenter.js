@@ -44,6 +44,9 @@ export default class MainPresenter{
     this.#destinationModel = destinationModel;
     this.#pointModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
+    this.#offerModel.addObserver(this.#handleModelEvent);
+    this.#destinationModel.addObserver(this.#handleModelEvent);
+
     this.#newPointPresenter = new NewPointPresenter(
       tripEventsList,
       this.#handleViewAction,
