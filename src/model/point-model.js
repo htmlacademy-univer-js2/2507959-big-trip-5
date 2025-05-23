@@ -4,7 +4,7 @@ import Observable from '../framework/observable.js';
 export default class PointModel extends Observable {
   #pointsApi;
   #points = [];
-  #loaded = false;
+  #isLoaded = false;
 
   constructor(pointsApi) {
     super();
@@ -18,16 +18,17 @@ export default class PointModel extends Observable {
     } catch (error) {
       this.#points = [];
     }
-    this.#loaded = true;
+    this.#isLoaded = true;
     this._notify(UpdateType.INIT);
   }
+
 
   get points() {
     return this.#points;
   }
 
-  get loaded() {
-    return this.#loaded;
+  get isLoaded() {
+    return this.#isLoaded;
   }
 
   async updatePoints(updateType, update) {
@@ -36,11 +37,11 @@ export default class PointModel extends Observable {
       throw new Error('I can\'t update this point');
     }
     try {
-      const response = await this.#pointsApi.updatePoints(update);
+      const response = await this.#pointsApi.updatePoint(update);
       const updatePoint = this.#adaptToClient(response);
       this.#points = [...this.#points.slice(0, index), updatePoint, ...this.#points.slice(index + 1)];
       this._notify(updateType, updatePoint);
-    } catch(error) {
+    } catch (error) {
       throw new Error('I can\'t update this point');
     }
   }
@@ -50,7 +51,7 @@ export default class PointModel extends Observable {
       const response = await this.#pointsApi.addPoint(update);
       const newPoint = this.#adaptToClient(response);
       this.#points = [...this.#points, newPoint];
-      this._notify(updateType, update);
+      this._notify(updateType, newPoint);
     } catch (err) {
       throw new Error(err);
     }

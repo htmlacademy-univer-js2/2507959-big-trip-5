@@ -4,7 +4,7 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import he from 'he';
 
-function createFormTemplate(state,offerModel,destinationModel,isNewPoint){
+function createFormTemplate(state, offerModel, destinationModel, isNewPoint) {
   const {
     basePrice,
     dateFrom,
@@ -17,12 +17,12 @@ function createFormTemplate(state,offerModel,destinationModel,isNewPoint){
     isDeleting,
   } = state;
   const pointOffers = [];
-  for(const offerId of offers){
-    pointOffers.push(offerModel.getOfferById(type,offerId));
+  for (const offerId of offers) {
+    pointOffers.push(offerModel.getOfferById(type, offerId));
   }
 
   const offersAll = offerModel.getOfferByType(type);
-  const {name, description, pictures} = destinationModel.getDestinationById(destination);
+  const { name, description, pictures } = destinationModel.getDestinationById(destination);
   const deleteText = isDeleting ? 'Deleting...' : 'Delete';
   return `
             <li class="trip-events__item">
@@ -93,18 +93,18 @@ function createFormTemplate(state,offerModel,destinationModel,isNewPoint){
                     </label>
                     <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${he.encode(name)}" list="destination-list-1" ${isDisabled ? 'disabled' : ''}>
                     <datalist id="destination-list-1">
-                    ${destinationModel.destinations.map((dest)=>`<option value="${dest.name}"></option>`)}
+                    ${destinationModel.destination.map((dest) => `<option value="${dest.name}"></option>`)}
                     </datalist>
                   </div>
 
                   <div class="event__field-group  event__field-group--time">
                     <label class="visually-hidden" for="event-start-time-1">From</label>
                     <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time"
-                    value="${humanizeDate(dateFrom,'DD/MM/YY HH:mm')}" ${isDisabled ? 'disabled' : ''}>
+                    value="${humanizeDate(dateFrom, 'DD/MM/YY HH:mm')}" ${isDisabled ? 'disabled' : ''}>
                     &mdash;
                     <label class="visually-hidden" for="event-end-time-1">To</label>
                     <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time"
-                    value="${humanizeDate(dateTo,'DD/MM/YY HH:mm')} ${isDisabled ? 'disabled' : ''}">
+                    value="${humanizeDate(dateTo, 'DD/MM/YY HH:mm')}" ${isDisabled ? 'disabled' : ''}>
                   </div>
 
                   <div class="event__field-group  event__field-group--price">
@@ -115,7 +115,7 @@ function createFormTemplate(state,offerModel,destinationModel,isNewPoint){
                     <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}" ${isDisabled ? 'disabled' : ''}>
                   </div>
 
-                  <button class="event__save-btn  btn  btn--blue" type="submit" ${isDisabled ? 'disabled' : ''}>${isSaving ? 'Saving...' : 'Save'}>Save</button>
+                  <button class="event__save-btn  btn  btn--blue" type="submit" ${isDisabled ? 'disabled' : ''}>${isSaving ? 'Saving...' : 'Save'}</button>
                   <button class="event__reset-btn" type="reset">Delete</button>
                   ${!isNewPoint ? `<button class="event__rollup-btn" type="button" ${isDisabled ? 'disabled' : ''}>${!isNewPoint ? deleteText : 'Cancel'}>
                     <span class="visually-hidden">Open event</span>
@@ -126,7 +126,7 @@ function createFormTemplate(state,offerModel,destinationModel,isNewPoint){
                   <section class="event__section  event__section--offers">
                     <h3 class="event__section-title  event__section-title--offers">Offers</h3>
                     <div class="event__available-offers">
-                    ${offersAll.map((offer)=> {
+                    ${offersAll.map((offer) => {
     const keyword = getOfferKeyword(offer.title);
     return `
                       <div class="event__offer-selector">
@@ -166,7 +166,7 @@ function createFormTemplate(state,offerModel,destinationModel,isNewPoint){
   `;
 }
 
-export default class EditFormView extends AbstractStatefulView{
+export default class EditFormView extends AbstractStatefulView {
   #offersAll;
   #allDestination;
   #onFormSubmit;
@@ -176,7 +176,7 @@ export default class EditFormView extends AbstractStatefulView{
   #datepickerEnd;
   #isNewPoint = false;
 
-  constructor(pointModel,offerModel,destinationModel,onFormSubmit,onDeletePoint,onEditButtonClick){
+  constructor(pointModel, offerModel, destinationModel, onFormSubmit, onDeletePoint, onEditButtonClick) {
     super();
     this._setState(this.parsePointToState(pointModel));
     this.#offersAll = offerModel;
@@ -188,22 +188,22 @@ export default class EditFormView extends AbstractStatefulView{
     this._restoreHandlers();
   }
 
-  get template(){
-    return createFormTemplate(this._state,this.#offersAll,this.#allDestination,this.#isNewPoint);
+  get template() {
+    return createFormTemplate(this._state, this.#offersAll, this.#allDestination, this.#isNewPoint);
   }
 
-  _restoreHandlers(){
+  _restoreHandlers() {
     this.element.querySelector('form').addEventListener('submit', this.#onFormStateSubmit);
-    if (!this.#isNewPoint){
+    if (!this.#isNewPoint) {
       this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#onEditButtonClick);
     }
-    this.element.querySelector('.event__type-group').addEventListener('change',(evt) => {
+    this.element.querySelector('.event__type-group').addEventListener('change', (evt) => {
       this.#onTypeListChange(evt);
     });
-    this.element.querySelector('.event__input--destination').addEventListener('change',(evt) => {
+    this.element.querySelector('.event__input--destination').addEventListener('change', (evt) => {
       this.#onCityChange(evt);
     });
-    this.element.querySelector('.event__reset-btn').addEventListener('click',(evt) => {
+    this.element.querySelector('.event__reset-btn').addEventListener('click', (evt) => {
       this.#onDeleteStateButton(evt);
     });
     this.element.querySelector('.event__input--price').addEventListener('input', this.#onPriceInput);
@@ -222,8 +222,8 @@ export default class EditFormView extends AbstractStatefulView{
       enableTime: true,
       dateFormat: 'd/m/y H:i',
       onChange: (selectedDates) => {
-        if(selectedDates[0] < new Date(this._state.dateTo)){
-          this._setState({ dateFrom: selectedDates[0].toISOString()});
+        if (selectedDates.length > 0 && (!this._state.dateTo || selectedDates[0] < new Date(this._state.dateTo))) {
+          this._setState({ dateFrom: selectedDates[0].toISOString() });
         }
       }
     });
@@ -237,16 +237,17 @@ export default class EditFormView extends AbstractStatefulView{
       enableTime: true,
       dateFormat: 'd/m/y H:i',
       onChange: (selectedDates) => {
-        if(selectedDates[0] > new Date(this._state.dateFrom)){
-          this._setState({ dateTo: selectedDates[0].toISOString()});
+        if (selectedDates.length > 0 && (!this._state.dateFrom || selectedDates[0] > new Date(this._state.dateFrom))) {
+          this._setState({ dateTo: selectedDates[0].toISOString() });
         }
       }
     });
   };
 
+
   #onPriceInput = (evt) => {
     const price = parseInt(evt.target.value, 10);
-    if(!isNaN(price) && price > 0){
+    if (!isNaN(price) && price > 0) {
       this._setState({
         basePrice: price
       });
@@ -270,21 +271,24 @@ export default class EditFormView extends AbstractStatefulView{
 
   #onCityChange = (evt) => {
     const city = evt.target.value;
-    const newDestination = this.#allDestination.destinations.find((destination)=> (destination.name || '') === city)?.id;
-    if (newDestination){
+    const newDestination = this.#allDestination.destinationList?.find((destination) =>
+      (destination.name || '') === city
+    )?.id;
+
+    if (newDestination) {
       this.updateElement({
-        destination:newDestination
+        destination: newDestination
       });
     }
   };
 
-  #onTypeListChange = (evt)=>{
+  #onTypeListChange = (evt) => {
     evt.preventDefault();
     const targetType = evt.target.value;
     const typeOffers = this.#offersAll.getOfferByType(targetType);
     this.updateElement({
-      type:targetType,
-      typeOffers:typeOffers,
+      type: targetType,
+      typeOffers: typeOffers,
     });
   };
 
@@ -293,8 +297,8 @@ export default class EditFormView extends AbstractStatefulView{
     this.#onDeletePoint(EditFormView.parseStateToPoint(this._state));
   };
 
-  parsePointToState(point){
-    return{
+  parsePointToState(point) {
+    return {
       ...point,
       isDisabled: false,
       isSaving: false,
@@ -302,7 +306,7 @@ export default class EditFormView extends AbstractStatefulView{
     };
   }
 
-  static parseStateToPoint(state){
+  static parseStateToPoint(state) {
     const point = { ...state };
     delete point.isDisabled;
     delete point.isSaving;
