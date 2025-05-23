@@ -4,7 +4,7 @@ import Observable from '../framework/observable';
 export default class DestinationModel extends Observable {
   #destinationList = [];
   #destinationsApi;
-  #loaded = false;
+  #isLoaded = false;
 
   constructor(destinationsApi) {
     super();
@@ -13,23 +13,23 @@ export default class DestinationModel extends Observable {
 
   async init() {
     try {
-      this.#destinationList = await this.#destinationsApi.destinationList;
+      this.#destinationList = await this.#destinationsApi.destinations;
     } catch (err) {
       this.#destinationList = [];
     }
-    this.#loaded = true;
+    this.#isLoaded = true;
     this._notify(UpdateType.INIT);
   }
 
-  get destinationList() {
+  get destinations() {
     return this.#destinationList;
   }
 
-  get loaded() {
-    return this.#loaded;
+  get isLoaded() {
+    return this.#isLoaded;
   }
 
-  getDestinationById(destinationId) {
-    return this.#destinationList.find((item) => item.destinationId === destinationId) || { name: '', description: '', pictures: [] };
+  getDestinationById(id) {
+    return this.#destinationList.find((item) => item.id === id) || { name: '', description: '', pictures: [] };
   }
 }

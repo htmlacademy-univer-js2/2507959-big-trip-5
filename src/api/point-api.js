@@ -51,8 +51,6 @@ export default class PointsApi extends ApiService {
       'date_to': point.dateTo,
       'is_favorite': point.isFavorite,
       'destination': point.destination.toString()
-
-
     };
 
     delete adaptedPoint.dateFrom;
