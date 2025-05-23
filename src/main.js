@@ -45,8 +45,7 @@ function onNewPointButtonClick() {
   newPointButtonComponent.element.disabled = true;
 }
 render(newPointButtonComponent,siteHeaderElement,RenderPosition.BEFOREEND);
-filterPresenter.init();
-mainPresenter.init();
+
 Promise.all([
   pointModel.init(),
   offerModel.init(),
@@ -55,4 +54,5 @@ Promise.all([
   filterPresenter.init();
   mainPresenter.init();
 });
+
 

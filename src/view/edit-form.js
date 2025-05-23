@@ -8,14 +8,15 @@ function createFormTemplate(state, offerModel, destinationModel, isNewPoint) {
   const {
     basePrice,
     dateFrom,
+    dateTo,
     destination,
     offers,
-    dateTo,
     type,
     isDisabled,
     isSaving,
     isDeleting,
   } = state;
+
   const pointOffers = [];
   for (const offerId of offers) {
     pointOffers.push(offerModel.getOfferById(type, offerId));
@@ -93,7 +94,7 @@ function createFormTemplate(state, offerModel, destinationModel, isNewPoint) {
                     </label>
                     <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${he.encode(name)}" list="destination-list-1" ${isDisabled ? 'disabled' : ''}>
                     <datalist id="destination-list-1">
-                    ${destinationModel.destination.map((dest) => `<option value="${dest.name}"></option>`)}
+                    ${destinationModel.destinations.map((dest) => `<option value="${dest.name}"></option>`)}
                     </datalist>
                   </div>
 
@@ -115,9 +116,9 @@ function createFormTemplate(state, offerModel, destinationModel, isNewPoint) {
                     <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}" ${isDisabled ? 'disabled' : ''}>
                   </div>
 
-                  <button class="event__save-btn  btn  btn--blue" type="submit" ${isDisabled ? 'disabled' : ''}>${isSaving ? 'Saving...' : 'Save'}</button>
-                  <button class="event__reset-btn" type="reset">Delete</button>
-                  ${!isNewPoint ? `<button class="event__rollup-btn" type="button" ${isDisabled ? 'disabled' : ''}>${!isNewPoint ? deleteText : 'Cancel'}>
+                  <button class="event__save-btn  btn  btn--blue" type="submit"${isDisabled ? 'disabled' : ''}>${isSaving ? 'Saving...' : 'Save'}</button>
+                  <button class="event__reset-btn" type="reset"${isDisabled ? 'disabled' : ''}>${!isNewPoint ? deleteText : 'Cancel'}</button>
+                  ${!isNewPoint ? `<button class="event__rollup-btn" type="button">
                     <span class="visually-hidden">Open event</span>
                   </button>` : ''}
                 </header>
