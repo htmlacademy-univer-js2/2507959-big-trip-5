@@ -10,6 +10,7 @@ import PointsApi from './api/point-api.js';
 import OffersApi from './api/offer-api.js';
 import DestinationsApi from './api/destination-api.js';
 import { render, RenderPosition } from './framework/render.js';
+import RoutePresenter from './presenter/route-presenter.js';
 
 const authorization = `Basic ${nanoid()}`;
 const endPoint = 'https://24.objects.htmlacademy.pro/big-trip';
@@ -33,7 +34,7 @@ const mainPresenter = new MainPresenter(
   filterModel,
   onNewPointFormClose
 );
-
+new RoutePresenter(siteHeaderElement, pointModel, offerModel, destinationModel);
 const newPointButtonComponent = new NewPointView(onNewPointButtonClick);
 
 function onNewPointFormClose() {
