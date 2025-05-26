@@ -1,5 +1,5 @@
-import {remove, render, RenderPosition} from '../framework/render.js';
-import {UserAction, UpdateType} from '../const.js';
+import { remove, render, RenderPosition } from '../framework/render.js';
+import { UserAction, UpdateType } from '../const.js';
 import EditFormView from '../view/edit-form.js';
 
 export default class NewPointPresenter {
@@ -15,7 +15,7 @@ export default class NewPointPresenter {
     this.#handleDestroy = handleDestroy;
   }
 
-  init(offerModel,destinationModel) {
+  init(offerModel, destinationModel) {
     if (this.#editPointView !== null) {
       return;
     }
@@ -56,6 +56,9 @@ export default class NewPointPresenter {
   }
 
   setSaving() {
+    if (this.#editPointView === null) {
+      return;
+    }
     this.#editPointView.updateElement({
       isDisabled: true,
       isSaving: true,
@@ -63,24 +66,36 @@ export default class NewPointPresenter {
   }
 
   setAborting() {
+    if (this.#editPointView === null) {
+      return;
+    }
+
     const resetFormState = () => {
-      this.#editPointView.updateElement({
-        isDisabled: false,
-        isSaving: false,
-        isDeleting: false,
-      });
+      if (this.#editPointView !== null) {
+        this.#editPointView.updateElement({
+          isDisabled: false,
+          isSaving: false,
+          isDeleting: false,
+        });
+      }
     };
 
     this.#editPointView.shake(resetFormState);
   }
 
-  #onFormSubmit = (_, point) => {
-    this.#handleDataChange(
-      UserAction.ADD_POINT,
-      UpdateType.MINOR,
-      point,
-    );
-    this.destroy();
+  #onFormSubmit = async (_, point) => {
+    try {
+      this.setSaving();
+      await this.#handleDataChange(
+        UserAction.ADD_POINT,
+        UpdateType.MINOR,
+        point,
+      );
+
+      this.destroy();
+    } catch (error) {
+      this.setAborting();
+    }
   };
 
   #onDeleteClick = () => {
