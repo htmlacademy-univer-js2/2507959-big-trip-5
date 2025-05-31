@@ -10,7 +10,7 @@ const SortType = {
   EVENT: 'event',
   TIME: 'time',
   PRICE: 'price',
-  OFFERS: 'offers'
+  OFFERS: 'offers',
 };
 
 const UserAction = {
@@ -30,7 +30,7 @@ const emptyListMessages = {
   [FilterType.EVERYTHING]: 'Click New Event to create your first point',
   [FilterType.PAST]: 'There are no past events now',
   [FilterType.PRESENT]: 'There are no present events now',
-  [FilterType.FUTURE]: 'There are no future events now'
+  [FilterType.FUTURE]: 'There are no future events now',
 };
 
 export { FilterType, SortType, UserAction, UpdateType, emptyListMessages };

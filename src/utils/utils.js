@@ -5,7 +5,6 @@ const DAYS_DIVIDER = 1000 * 60 * 60 * 24;
 const HOURS_DIVIDER = 1000 * 60 * 60;
 const MINUTES_DIVIDER = 1000 * 60;
 
-
 function humanizeDate(dueDate, format = DATE_FORMAT) {
   return dueDate ? dayjs(dueDate).format(format) : '';
 }
@@ -41,6 +40,10 @@ function isFuturePoint(dueDate) {
   return dueDate && dayjs().isBefore(dueDate, 'D');
 }
 
+function isDatesEqual(dateA, dateB) {
+  return (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB, 'D');
+}
+
 function sortPointByDay(pointA, pointB) {
   return dayjs(pointA.dateFrom).diff(dayjs(pointB.dateFrom));
 }
@@ -49,10 +52,6 @@ function sortPointByTime(pointA, pointB) {
   const durationA = dayjs(pointA.dateTo).diff(dayjs(pointA.dateFrom));
   const durationB = dayjs(pointB.dateTo).diff(dayjs(pointB.dateFrom));
   return durationB - durationA;
-}
-
-function isDatesEqual(dateA, dateB) {
-  return (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB, 'D');
 }
 
 function OnEscKeyDown(evt, callback) {
@@ -67,10 +66,10 @@ export {
   getDurationTime,
   capitalizeString,
   isPresentPoint,
-  isFuturePoint,
   isPastPoint,
+  isFuturePoint,
+  isDatesEqual,
   sortPointByDay,
   sortPointByTime,
-  isDatesEqual,
   OnEscKeyDown
 };

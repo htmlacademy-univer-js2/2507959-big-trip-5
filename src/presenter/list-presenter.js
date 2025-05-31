@@ -114,7 +114,7 @@ export default class MainPresenter {
       case UserAction.UPDATE_POINT:
         this.#pointPresentersMap.get(updateData.id).setSaving();
         try {
-          await this.#pointsModel.updatePoints(updateType, updateData);
+          await this.#pointsModel.updatePoint(updateType, updateData);
         } catch {
           this.#pointPresentersMap.get(updateData.id).setAborting();
         }
@@ -122,7 +122,7 @@ export default class MainPresenter {
       case UserAction.ADD_POINT:
         this.#newPointFormPresenter.setSaving();
         try {
-          await this.#pointsModel.addPoints(updateType, updateData);
+          await this.#pointsModel.addPoint(updateType, updateData);
         } catch {
           this.#newPointFormPresenter.setAborting();
         }
@@ -130,7 +130,7 @@ export default class MainPresenter {
       case UserAction.DELETE_POINT:
         this.#pointPresentersMap.get(updateData.id).setDeleting();
         try {
-          await this.#pointsModel.deletePoints(updateType, updateData);
+          await this.#pointsModel.deletePoint(updateType, updateData);
         } catch {
           this.#pointPresentersMap.get(updateData.id).setAborting();
         }
@@ -142,7 +142,7 @@ export default class MainPresenter {
 
   #handleModeChange = () => {
     this.#newPointFormPresenter.destroy();
-    this.#pointPresentersMap.forEach((presenter) => presenter.resetView());
+    this.#pointPresentersMap.forEach((presenter) => presenter.resetViewToDefault());
   };
 
   #handleModelEvent = (updateType, updatedData) => {

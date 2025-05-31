@@ -12,22 +12,20 @@ import DestinationsApiService from './api/destination-api.js';
 import RoutePresenter from './presenter/route-presenter.js';
 
 const AUTHORIZATION = 'Basic 92k5hj4n4bdm4q2f';
-const END_POINT = 'https://24.objects.htmlacademy.pro/big-trip';
-const siteHeaderFiltersElement = document.querySelector('.trip-controls__filters');
+const API_URL = 'https://24.objects.htmlacademy.pro/big-trip';
+const filterContainer = document.querySelector('.trip-controls__filters');
 const siteBodySortElement = document.querySelector('.trip-events');
-const siteHeaderElement = document.querySelector('.trip-main');
-
+const tripHeaderContainer = document.querySelector('.trip-main');
 
 const filterModel = new FilterModel();
-const pointModel = new PointModel(new PointsApiService(END_POINT, AUTHORIZATION));
-const offerModel = new OfferModel(new OffersApiService(END_POINT, AUTHORIZATION));
-const destinationModel = new DestinationModel(new DestinationsApiService(END_POINT, AUTHORIZATION));
+const pointModel = new PointModel(new PointsApiService(API_URL, AUTHORIZATION));
+const offerModel = new OfferModel(new OffersApiService(API_URL, AUTHORIZATION));
+const destinationModel = new DestinationModel(new DestinationsApiService(API_URL, AUTHORIZATION));
 
-
-new RoutePresenter(siteHeaderElement, pointModel, offerModel, destinationModel);
+new RoutePresenter(tripHeaderContainer, pointModel, offerModel, destinationModel);
 
 const filterPresenter = new FilterPresenter(
-  siteHeaderFiltersElement,
+  filterContainer,
   filterModel,
   pointModel
 );
@@ -41,7 +39,6 @@ const mainPresenter = new MainPresenter(
   onNewPointFormClose
 );
 
-
 const newPointButtonComponent = new NewPointView(onNewPointButtonClick);
 
 function onNewPointFormClose() {
@@ -52,12 +49,14 @@ function onNewPointButtonClick() {
   mainPresenter.createPoint();
   newPointButtonComponent.element.disabled = true;
 }
+
 filterPresenter.init();
 mainPresenter.init();
+
 Promise.all([
   pointModel.init(),
   offerModel.init(),
   destinationModel.init()
 ]).then(() => {
-  render(newPointButtonComponent, siteHeaderElement, RenderPosition.BEFOREEND);
+  render(newPointButtonComponent, tripHeaderContainer, RenderPosition.BEFOREEND);
 });

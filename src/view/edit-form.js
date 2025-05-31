@@ -168,7 +168,7 @@ function createFormTemplate(state, offerModel, destinationModel, isNewPoint) {
 
 export default class EditFormView extends AbstractStatefulView {
   #allOffers;
-  #allDestination;
+  #allDestinations;
   #onFormSubmit;
   #onEditToggleClick;
   #onDeletePoint;
@@ -182,7 +182,7 @@ export default class EditFormView extends AbstractStatefulView {
     this.#initialPoint = { ...pointModel };
     this._setState(this.parsePointToState(pointModel));
     this.#allOffers = offerModel;
-    this.#allDestination = destinationModel;
+    this.#allDestinations = destinationModel;
     this.#onEditToggleClick = onEditToggleClick;
     this.#isNewPoint = onEditToggleClick === undefined;
     this.#onFormSubmit = onFormSubmit;
@@ -191,7 +191,7 @@ export default class EditFormView extends AbstractStatefulView {
   }
 
   get template() {
-    return createFormTemplate(this._state, this.#allOffers, this.#allDestination, this.#isNewPoint);
+    return createFormTemplate(this._state, this.#allOffers, this.#allDestinations, this.#isNewPoint);
   }
 
   _restoreHandlers() {
@@ -233,7 +233,7 @@ export default class EditFormView extends AbstractStatefulView {
 
   #onCityChange = (evt) => {
     const city = evt.target.value;
-    const newDestination = this.#allDestination.destinations.find((destination) => (destination.name || '') === city)?.id;
+    const newDestination = this.#allDestinations.destinations.find((destination) => (destination.name || '') === city)?.id;
     if (newDestination) {
       this.updateElement({
         destination: newDestination
@@ -281,19 +281,6 @@ export default class EditFormView extends AbstractStatefulView {
     });
   };
 
-  #setDatepickerStart = () => {
-    if (this.#datepickerStart) {
-      this.#datepickerStart.destroy();
-    }
-    this.#datepickerStart = flatpickr(this.element.querySelector('#event-start-time-1'), {
-      enableTime: true,
-      dateFormat: 'd/m/y H:i',
-      onChange: (selectedDates) => {
-        this._setState({ dateFrom: selectedDates[0].toISOString() });
-      }
-    });
-  };
-
   #setDatepickerEnd = () => {
     if (this.#datepickerEnd) {
       this.#datepickerEnd.destroy();
@@ -303,6 +290,19 @@ export default class EditFormView extends AbstractStatefulView {
       dateFormat: 'd/m/y H:i',
       onChange: (selectedDates) => {
         this._setState({ dateTo: selectedDates[0].toISOString() });
+      }
+    });
+  };
+
+  #setDatepickerStart = () => {
+    if (this.#datepickerStart) {
+      this.#datepickerStart.destroy();
+    }
+    this.#datepickerStart = flatpickr(this.element.querySelector('#event-start-time-1'), {
+      enableTime: true,
+      dateFormat: 'd/m/y H:i',
+      onChange: (selectedDates) => {
+        this._setState({ dateFrom: selectedDates[0].toISOString() });
       }
     });
   };

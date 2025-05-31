@@ -74,7 +74,7 @@ export default class PointPresenter {
     remove(this.#editFormComponent);
   }
 
-  resetView() {
+  resetViewToDefault() {
     if (this.#mode !== Mode.DEFAULT) {
       this.#replaceFormToCard();
     }
