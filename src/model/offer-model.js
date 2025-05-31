@@ -8,27 +8,17 @@ export default class OfferModel extends Observable {
   #offersApiService;
   #isLoaded = false;
 
+  constructor(offersApiService) {
+    super();
+    this.#offersApiService = offersApiService;
+  }
+
   get offers() {
     return this.#offers;
   }
 
   get isLoaded() {
     return this.#isLoaded;
-  }
-
-  constructor(offersApiService) {
-    super();
-    this.#offersApiService = offersApiService;
-  }
-
-  async init() {
-    try {
-      this.#offers = await this.#offersApiService.offers;
-    } catch (err) {
-      this.#offers = [];
-    }
-    this.#isLoaded = true;
-    this._notify(UpdateType.INIT);
   }
 
   getOfferById(type, id) {
@@ -40,5 +30,15 @@ export default class OfferModel extends Observable {
 
   getOfferByType(type) {
     return this.#offers.filter((offer) => offer.type === type).map((offer) => offer.offers).flat();
+  }
+
+  async init() {
+    try {
+      this.#offers = await this.#offersApiService.offers;
+    } catch (err) {
+      this.#offers = [];
+    }
+    this.#isLoaded = true;
+    this._notify(UpdateType.INIT);
   }
 }

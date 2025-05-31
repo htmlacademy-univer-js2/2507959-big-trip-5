@@ -1,7 +1,7 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import { capitalizeString, getDurationTime, humanizeDate } from '../utils/utils.js';
 
-function createPointsTemplate(pointModel,offerModel,destinationModel){
+function createPointsTemplate(pointModel, offerModel, destinationModel) {
   const {
     basePrice,
     dateFrom,
@@ -61,24 +61,24 @@ function createPointsTemplate(pointModel,offerModel,destinationModel){
 `;
 }
 
-export default class PointView extends AbstractView{
+export default class PointView extends AbstractView {
   pointModel;
   #offerModel;
   #destinationModel;
   #rollupButton;
   #favoriteButton;
-  constructor(pointModel,offerModel,destinationModel,onEditButtonClick,onFavoriteButtonClick){
+  constructor(pointModel, offerModel, destinationModel, onEditButtonClick, onFavoriteButtonClick) {
     super();
     this.pointModel = pointModel;
     this.#offerModel = offerModel;
     this.#destinationModel = destinationModel;
     this.#rollupButton = this.element.querySelector('.event__rollup-btn');
     this.#favoriteButton = this.element.querySelector('.event__favorite-btn');
-    this.#rollupButton.addEventListener('click',onEditButtonClick);
+    this.#rollupButton.addEventListener('click', onEditButtonClick);
     this.#favoriteButton.addEventListener('click', onFavoriteButtonClick);
   }
 
-  get template(){
-    return createPointsTemplate(this.pointModel,this.#offerModel,this.#destinationModel);
+  get template() {
+    return createPointsTemplate(this.pointModel, this.#offerModel, this.#destinationModel);
   }
 }
