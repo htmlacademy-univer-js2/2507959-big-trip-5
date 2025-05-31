@@ -10,7 +10,7 @@ function createEmptyListTemplate(actualFilter) {
 `;
 }
 
-export default class EmptyListView extends AbstractView {
+export default class EmptyListView extends AbstractView{
   #actualFilter;
   constructor(actualFilter) {
     super();
