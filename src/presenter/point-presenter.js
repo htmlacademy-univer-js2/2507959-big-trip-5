@@ -5,8 +5,8 @@ import {UserAction, UpdateType} from '../const.js';
 import {isDatesEqual} from '../utils/utils.js';
 
 const Mode = {
-  DEFAULT: 'DEFAULT',
   EDITING: 'EDITING',
+  DEFAULT: 'DEFAULT',
 };
 
 export default class PointPresenter{
@@ -33,13 +33,6 @@ export default class PointPresenter{
     const prevpointCardView = this.#pointCardView;
     const prevEditpointCardView = this.#editpointCardView;
 
-    this.#pointCardView = new PointView(
-      this.#pointModel,
-      this.#offerModel,
-      this.#destinationModel,
-      this.#handleEditClick,
-      this.#handleFavoriteToggle);
-
     this.#editpointCardView = new EditFormView(
       this.#pointModel,
       this.#offerModel,
@@ -48,6 +41,13 @@ export default class PointPresenter{
       this.#handleDeleteClick,
       this.#onEditButtonClick
     );
+
+    this.#pointCardView = new PointView(
+      this.#pointModel,
+      this.#offerModel,
+      this.#destinationModel,
+      this.#handleEditClick,
+      this.#handleFavoriteToggle);
 
     if(prevpointCardView === null || prevEditpointCardView === null){
       render(this.#pointCardView,this.#pointsListElement);
@@ -118,6 +118,7 @@ export default class PointPresenter{
   }
 
   #replaceFormToCard(){
+    this.#editpointCardView.resetToInitialState();
     replace(this.#pointCardView,this.#editpointCardView);
     document.removeEventListener('keydown', this.#handleEscapeKey);
     this.#mode = Mode.DEFAULT;

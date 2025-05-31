@@ -8,6 +8,14 @@ export default class OfferModel extends Observable {
   #offersApiService;
   #isLoaded = false;
 
+  get offers() {
+    return this.#offers;
+  }
+
+  get isLoaded() {
+    return this.#isLoaded;
+  }
+
   constructor(offersApiService) {
     super();
     this.#offersApiService = offersApiService;
@@ -21,14 +29,6 @@ export default class OfferModel extends Observable {
     }
     this.#isLoaded = true;
     this._notify(UpdateType.INIT);
-  }
-
-  get offers() {
-    return this.#offers;
-  }
-
-  get isLoaded() {
-    return this.#isLoaded;
   }
 
   getOfferById(type, id) {

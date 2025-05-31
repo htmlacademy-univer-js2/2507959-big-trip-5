@@ -21,13 +21,12 @@ export default class NewPointPresenter {
     }
     const blankPoint = {
       basePrice: 0,
-      dateFrom: new Date().toISOString(),
-      dateTo: new Date().toISOString(),
-      destination: 1,
+      dateFrom: '',
+      dateTo: '',
+      destination: '',
       offers: [],
       type: 'flight',
-      isFavorite: false
-    };
+      isFavorite: false};
 
     this.#editPointView = new EditFormView(
       blankPoint,
