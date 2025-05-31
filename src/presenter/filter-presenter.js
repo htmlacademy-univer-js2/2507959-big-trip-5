@@ -23,13 +23,14 @@ export default class FilterPresenter {
     const points = this.#pointsData.points;
     return Object.values(FilterType).map((filterType) => ({
       type: filterType,
-      count: filter[filterType](points).length
+      count: filter[filterType](points).length,
     }));
   }
 
   init() {
     const filters = this.availableFilters;
     const prevFilterComponent = this.#filterViewComponent;
+
     this.#filterViewComponent = new FilterView(
       filters,
       this.#filterState.filter,

@@ -1,7 +1,6 @@
 import { render, RenderPosition, replace } from '../framework/render.js';
 import RouteView from '../view/route-view.js';
 
-
 const generateRouteTitle = (points, destinationsModel) => {
   if (points.length === 0) {
     return '';
@@ -72,10 +71,6 @@ export default class RoutePresenter {
     this.#renderRoute();
   }
 
-  #handleModelEvent = () => {
-    this.#renderRoute();
-  };
-
   #renderRoute = () => {
     const points = this.#pointsModel.points;
     const routeTitle = generateRouteTitle(points, this.#destinationsModel);
@@ -95,5 +90,9 @@ export default class RoutePresenter {
     } else {
       replace(this.#routeComponent, prevRouteComponent);
     }
+  };
+
+  #handleModelEvent = () => {
+    this.#renderRoute();
   };
 }

@@ -28,7 +28,7 @@ export default class NewPointFormPresenter {
       destination: '',
       offers: [],
       type: 'flight',
-      isFavorite: false
+      isFavorite: false,
     };
 
     this.#editFormComponent = new EditFormView(
