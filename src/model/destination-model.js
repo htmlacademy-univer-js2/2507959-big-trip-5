@@ -1,28 +1,18 @@
-import { UpdateType } from '../const';
-import Observable from '../framework/observable';
+import { UpdateType } from '../const.js';
+import Observable from '../framework/observable.js';
 
-export default class DestinationModel extends Observable {
-  #destinationList = [];
-  #destinationsApi;
+export default class DestinationsModel extends Observable {
+  #destinations = [];
+  #destinationsApiService;
   #isLoaded = false;
 
-  constructor(destinationsApi) {
+  constructor(destinationsApiService) {
     super();
-    this.#destinationsApi = destinationsApi;
-  }
-
-  async init() {
-    try {
-      this.#destinationList = await this.#destinationsApi.destinations;
-    } catch (err) {
-      this.#destinationList = [];
-    }
-    this.#isLoaded = true;
-    this._notify(UpdateType.INIT);
+    this.#destinationsApiService = destinationsApiService;
   }
 
   get destinations() {
-    return this.#destinationList;
+    return this.#destinations;
   }
 
   get isLoaded() {
@@ -30,6 +20,21 @@ export default class DestinationModel extends Observable {
   }
 
   getDestinationById(id) {
-    return this.#destinationList.find((item) => item.id === id) || { name: '', description: '', pictures: [] };
+    return this.#destinations.find((destination) => destination.id === id) || {
+      name: '',
+      description: '',
+      pictures: [],
+    };
+  }
+
+  async init() {
+    try {
+      this.#destinations = await this.#destinationsApiService.destinations;
+    } catch (err) {
+      this.#destinations = [];
+    }
+
+    this.#isLoaded = true;
+    this._notify(UpdateType.INIT);
   }
 }
